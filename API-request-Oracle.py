@@ -57,6 +57,7 @@ def run_job(url, data, api_token, interval=3, timeout=60):
             if wait_time > timeout:
                 raise JobException('Client timeout')
 
+# query from production database
 db_info = pd.read_csv("dbInfo.csv")
 db_user=db_info.loc[db_info['database']==db_source]['username'].values[0]
 db_password=db_info.loc[db_info['database']==db_source]['password'].values[0]
@@ -69,6 +70,7 @@ cur.close()
 con.close()
 
 
+# parse the query result to the right format for API request
 study_summary = study.groupby(['NTP_TDMS_NUMBER','ORGAN','MORPH','SEX']).size()
 study_summary_for_BMD = study_summary[study_summary>2]
 BMD_value = pd.Series([])
@@ -152,7 +154,7 @@ for i in range(len(study_summary_for_BMD)): #study_summary_for_BMD.size):
     new_list = [tuple(row) for row in test_excel_list]
     cur.executemany(excel_sql, new_list[0:1])
 
-    
+
     ## insert many rows by using Engine, works!
     #oracle_db = sa.create_engine('oracle://' + db_user + ':' + db_password + '@' + database_alias2 ) #only for TNS
     oracle_db = sa.create_engine('oracle://' + db_user + ':' + db_password + '@' + '(DESCRIPTION = (LOAD_BALANCE=on) (FAILOVER=ON) (ADDRESS = (PROTOCOL = TCP)(HOST =' + 'ehsoravld04.niehs.nih.gov' + ')(PORT = 1521)) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME =' + 'EHSINT1.niehs.nih.gov)))')
