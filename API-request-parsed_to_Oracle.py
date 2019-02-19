@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jun 27 13:06:19 2018
-
 @author: yingw
+This program has the following functions:
+1. read login info from a file and make connection to a specified Oracle database
+2. query data from the connection and reformat it to suit API requests
+3. make the api request with the data prepared from the previous step
+4. save the retured excel file
+5. parse the result to dataframe matching database table
+6. write the dataframe format of result to Oracle datatable
+
+The following functions have been refactored to python class "OracleManager" in read_write_Oracle.py:
+1. read login info from a file and make connection to a specified Oracle database
+2. query data from the connection
+3. write the dataframe to Oracle datatable
+
 """
 
-import json
-import time
-import requests
-import pandas as pd
-import cx_Oracle
-import os
 import OracleManager from read_write_Oracle
 
 
@@ -65,7 +71,7 @@ for i in range(len(study_summary_for_BMD)): #study_summary_for_BMD.size):
     excel_url = "http://ehsbmdvwd03/api/job/" + job_id + "/excel/"
     r = requests.get(excel_url, allow_redirects=True)
     print (r.headers.get('content-type'))
-    os.chdir('C:\\Users\\yingw\\Desktop\\Ying\\BMDS_p8p10\\excel_results')
+    os.chdir('C:\\Users\\yingw\\Desktop\\Ying\\excel_results')
     file_name = tdms_number + '_' + organ + '_' + morph + '_' + sex +'.xlsx'
     #open(file_name, 'wb').write(r.content)
     with open(file_name,'wb') as f:

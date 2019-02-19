@@ -1,7 +1,13 @@
 #-*- coding: utf-8 -*-
-"""Classes for connecting and query from Oracle db."""
+"""Classes for connecting, querying and writing Oracle db."""
 
 import sqlalchemy as sa
+import cx_Oracle
+import os
+import json
+import time
+import requests
+import pandas as pd
 
 class OracleManager:
     """Manage connecting, query from Oracle and writing results to Oracle."""

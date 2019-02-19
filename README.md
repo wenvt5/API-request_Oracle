@@ -1,16 +1,16 @@
 # API-request_Oracle
 automation of API request and results storing in Oracle
 
-## Prepare request
-- retrieve login info from csv file and log in production database
-- query from production database
-- parse the query result to the right format for API request
+This program has the following functions:
+1. read login info from a file and make connection to a specified Oracle database
+2. query data from the connection and reformat it to suit API requests
+3. make the api request with the data prepared from the previous step
+4. save the retured excel file
+5. parse the result to dataframe matching database table
+6. write the dataframe format of result to Oracle datatable
 
-## send requests
-- Create a connect session and make a request with the parsed query results
 
-## save results
-- Parse the returned result from Json to dataframe
-- Save the result as excel
-- retrieve the login info from csv file and log in stage database
-- Save the result in stage database 
+# The following functions have been refactored to python class "OracleManager" in read_write_Oracle.py:
+1. read login info from a file and make connection to a specified Oracle database
+2. query data from the connection
+3. write the dataframe to Oracle datatable
